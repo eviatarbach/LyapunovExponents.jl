@@ -1,5 +1,5 @@
-using Base.Test
-using Base.Test: Fail, Error, Broken
+using Test
+using Test: Fail, Error, Broken
 using LyapunovExponents
 using LyapunovExponents: objname, dimension
 using LyapunovExponents.TestTools: test_same_dynamics,
@@ -12,7 +12,7 @@ using LyapunovExponents.TestTools: test_same_dynamics,
 
     io = IOBuffer()
     result = @_test_isapprox_elemwise_result([0], [1], io=io)
-    msg = readstring(seek(io, 0))
+    msg = read(seek(io, 0), String)
     @test contains(msg, "Not pairwise isapprox")
     @test result isa Fail
 

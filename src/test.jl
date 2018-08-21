@@ -1,7 +1,7 @@
 module TestTools
 
 using Base: rtoldefault
-using Base.Test: @test, record, get_testset, Pass, Fail, Error, Broken
+using Test: @test, record, get_testset, Pass, Fail, Error, Broken
 using DiffEqBase: DEProblem, set_u!, step!
 using LyapunovExponents: LEProblem, dimension, get_integrator, current_state,
     PhaseTangentDynamics
@@ -52,7 +52,7 @@ end
 function test_isapprox_elemwise(x, y, xexpr, yexpr, orig_kwargs;
                                 skip::Bool = false,
                                 broken::Bool = false,
-                                io = STDOUT,
+                                io = stdout,
                                 rtol::Real = rtoldefault(eltype(x), eltype(y)),
                                 atol::Real = 0)
     appx = isapprox.(x, y; rtol=rtol, atol=atol)
@@ -64,7 +64,7 @@ function test_isapprox_elemwise(x, y, xexpr, yexpr, orig_kwargs;
         th = atol .+ rtol .* amp
         relerr = abserr ./ amp
 
-        print_with_color(:red, io, "Not pairwise isapprox")
+        printstyled(io, "Not pairwise isapprox", color=:red)
         println(io, "  ", "rtol=", rtol, "  ", "atol=", atol)
         println(io, "x = ", xexpr)
         println(io, "y = ", yexpr)
@@ -141,7 +141,7 @@ end
 
 
 function rtol_exponents_default(x, y, n=50)
-    return linspace(log10(rtoldefault(eltype(x), eltype(y))), 0.5, n)
+    return range(log10(rtoldefault(eltype(x), eltype(y))), stop=0.5, length=n)
 end
 
 

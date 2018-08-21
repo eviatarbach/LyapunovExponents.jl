@@ -4,7 +4,7 @@ Test that `DiscreteIterator` has the same semantics as
 """
 module TestDiscreteIterator
 
-using Base.Test
+using Test
 using OrdinaryDiffEq: DiscreteProblem
 using LyapunovExponents: DiscreteIterator, keepgoing!, change_tspan,
     solve_discrete

@@ -1,4 +1,4 @@
-using Base.Test
+using Test
 using LyapunovExponents
 using LyapunovExponents: stable_le_error, FixedPointConvDetail,
     NonNegativeAutoCovConvDetail, NonPeriodicConvDetail,

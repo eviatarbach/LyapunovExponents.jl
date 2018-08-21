@@ -1,4 +1,4 @@
-using Base.Test
+using Test
 using OnlineStats: Series, fit!
 using LyapunovExponents: VecMean, VecVariance
 

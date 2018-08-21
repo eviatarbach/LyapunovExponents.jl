@@ -1,4 +1,4 @@
-using Base.Test
+using Test
 using IterTools: product
 using LyapunovExponents
 using LyapunovExponents: DEMOS, objname, dimension

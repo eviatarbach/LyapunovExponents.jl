@@ -1,4 +1,4 @@
-using Base.Test
+using Test
 using LyapunovExponents: DEMOS, dimension, solve!, lyapunov_exponents,
     LEProblem, report, objname
 using LyapunovExponents.TestTools: test_tangent_dynamics_against_autodiff,
