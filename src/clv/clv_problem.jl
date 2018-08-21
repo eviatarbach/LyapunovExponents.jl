@@ -79,7 +79,7 @@ function CLVProblem(phase_prob::PPr;
                     t_clv::Real = error("Keyword argument",
                                         " `t_clv` is required."),
                     tangent_dynamics = nothing,
-                    tangent_prob::Union{Void, DEProblem} = nothing,
+                    tangent_prob::Union{Nothing, DEProblem} = nothing,
                     dim_lyap = dimension(phase_prob),
                     Q0 = default_Q0(phase_prob, dimension(phase_prob), dim_lyap),
                     kwargs...) where {PPr <: DEProblem}

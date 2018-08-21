@@ -60,7 +60,7 @@ const DiscreteExample = LEExample{DiscreteLEProblem}
 function LEProblem(example::LEExample{P}; kwargs...) where {P <: LEProblem}
     t_tran = example.t_attr * 0.1
     if P <: DiscreteLEProblem
-        t_tran = ceil(typeof(example.t_attr), t_tran)
+        t_tran = ceil(typeof(example.t_attr), digits=t_tran)
     end
     P(example.phase_dynamics,
       example.u0,
@@ -140,20 +140,20 @@ end
 
 function report(io::IO, demo::LEDemo;
                 convergence::Bool = true)
-    print_with_color(:blue, io, "Lyapunov Exponents Demo")
+    printstyled(io, "Lyapunov Exponents Demo", color=:blue)
     println(io, ": ", demo.example.name)
 
     if isdefined(demo, :solver)
         report(io, demo.solver; convergence = false)
     else
-        print_with_color(:red, io, "[solver not initialized]")
+        printstyled(io, "[solver not initialized]", color=:red)
         println(io)
     end
 
     if ! isempty(demo.example.known_exponents)
         known_exponents = demo.example.known_exponents
 
-        print_with_color(:yellow, io, "Known LEs")
+        printstyled(io, "Known LEs", color=:yellow)
         print(io, ": ")
         show(IOContext(io, :limit => true), known_exponents)
         println(io)
@@ -165,12 +165,12 @@ function report(io::IO, demo::LEDemo;
         abserr = abs.(actual .- desired)
         relerr = abserr ./ max.(abs.(actual), abs.(desired))
 
-        print_with_color(:yellow, io, "Abs. Error")
+        printstyled(io, "Abs. Error", color=:yellow)
         print(io, ": ")
         show(IOContext(io, :limit => true), abserr)
         println(io)
 
-        print_with_color(:yellow, io, "Rel. Error")
+        printstyled(io, "Rel. Error", color=:yellow)
         print(io, ": ")
         show(IOContext(io, :limit => true), relerr)
         println(io)

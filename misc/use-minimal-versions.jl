@@ -2,7 +2,7 @@ packages = [
     let (name, version) = split(line)
         (name, VersionNumber(version))
     end
-    for line in split(strip(readstring("REQUIRE")), '\n')[2:end]
+    for line in split(strip(read("REQUIRE", String)), '\n')[2:end]
 ]
 
 for (name, version) in packages

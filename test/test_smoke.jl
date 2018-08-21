@@ -1,4 +1,4 @@
-using Base.Test
+using Test
 using Plots
 using OnlineStats: CovMatrix
 using LyapunovExponents

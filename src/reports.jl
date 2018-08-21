@@ -1,4 +1,4 @@
-report(x) = report(STDOUT, x)
+report(x) = report(stdout, x)
 
 function report(io::IO, solver::LESolver; kwargs...)
     report(io, solver.sol; kwargs...)
@@ -8,11 +8,11 @@ function report(io::IO, sol::LESolution;
                 convergence::Bool = true)
     LEs = lyapunov_exponents(sol)
 
-    print_with_color(:blue, io, "Lyapunov Exponents Solution")
+    printstyled(io, "Lyapunov Exponents Solution", color=:blue)
     if sol.converged
-        print_with_color(:green, io, " (converged)")
+        printstyled(io, " (converged)", color=:green)
     else
-        print_with_color(:red, io, " (NOT converged)")
+        printstyled(io, " (NOT converged)", color=:red)
     end
     println(io)
 
@@ -22,7 +22,7 @@ function report(io::IO, sol::LESolution;
         ("LEs", LEs),
     ]
     for (name, value) in table
-        print_with_color(:yellow, io, name)
+        printstyled(io, name, color=:yellow)
         print(io, ": ")
         if value isa String
             print(io, value)
@@ -46,7 +46,7 @@ function report(io::IO, convergence::ConvergenceHistory;
         return
     end
 
-    print_with_color(:blue, io, "Convergence")
+    printstyled(io, "Convergence", color=:blue)
     print(io, " #Orth.=$(convergence.orth[end])")
     print(io, " #Checks=$(length(convergence.orth))")
     if convergence.kinds[end] == UnstableConvError
@@ -57,7 +57,7 @@ function report(io::IO, convergence::ConvergenceHistory;
     println(io)
 
     if length(convergence.kinds) > 1
-        print_with_color(:yellow, io, "Stability")
+        printstyled(io, "Stability", color=:yellow)
         print(io, ": ")
         for k in convergence.kinds
             if k == UnstableConvError
@@ -88,9 +88,9 @@ function report(io::IO, convergence::ConvergenceHistory;
         print(io, ": ")
         @printf(io, " %10.5g", err)
         if err < th
-            print_with_color(:green, io, " < ")
+            printstyled(io, " < ", color=:green)
         else
-            print_with_color(:red, io, " > ")
+            printstyled(io, " > ", color=:red)
         end
         @printf(io, " %10.5g", th)
 
@@ -100,9 +100,9 @@ function report(io::IO, convergence::ConvergenceHistory;
             @printf(io, " %10.5g", detail.tail_cov)
             print(io, "  ")
             if detail.tail_ok
-                print_with_color(:green, io, "yes")
+                printstyled(io, "yes", color=:green)
             else
-                print_with_color(:red, io, "no")
+                printstyled(io, "no", color=:red)
             end
         else
             print(io, "  ")

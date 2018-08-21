@@ -103,7 +103,7 @@ function LEProblem(phase_prob::PPr;
                    t_attr::Real = error("Keyword argument",
                                         " `t_attr` is required."),
                    tangent_dynamics = nothing,
-                   tangent_prob::Union{Void, DEProblem} = nothing,
+                   tangent_prob::Union{Nothing, DEProblem} = nothing,
                    dim_lyap = dimension(phase_prob),
                    Q0 = default_Q0(phase_prob, dimension(phase_prob), dim_lyap),
                    kwargs...) where {PPr <: DEProblem}
@@ -145,7 +145,7 @@ function LESolution(dim_lyap::Int;
                     num_attr = nothing)
     RecOS = main_stat !== nothing || ! isempty(add_stats)
     RecFTLE = num_attr !== nothing
-    if ! isa(main_stat, Union{OnlineStats.OnlineStat, Void})
+    if ! isa(main_stat, Union{OnlineStats.OnlineStat, Nothing})
         main_stat = main_stat(dim_lyap)
     end
     series = if RecOS

@@ -1,4 +1,4 @@
-using Base.Test
+using Test
 using LyapunovExponents
 using LyapunovExponents: IntegratorError
 using LyapunovExponents.TestTools: @test_nothrow

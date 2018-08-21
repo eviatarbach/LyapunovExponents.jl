@@ -1,6 +1,6 @@
 module TestNullCLV
 
-using Base.Test
+using Test
 using Parameters: @with_kw, @unpack
 using LyapunovExponents
 using LyapunovExponents.Stages: is_finished

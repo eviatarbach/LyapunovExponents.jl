@@ -1,4 +1,4 @@
-using Base.Test
+using Test
 using LyapunovExponents: is_semi_unitary
 
 @testset "Utils: is_semi_unitary" begin

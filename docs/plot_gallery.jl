@@ -19,7 +19,7 @@ for path in list_scripts(joinpath(dirname(@__FILE__), "src/gallery"))
     end
     if ! plots_loaded
         # Load Plots.jl only if necessary.
-        info("using Plots...")
+        @info("using Plots...")
         @time using Plots
         gr()
         plots_loaded = true

@@ -1,4 +1,4 @@
-using Base.Test
+using Test
 using LyapunovExponents
 using LyapunovExponents: PhaseRelaxer,
     get_integrator, get_tangent_integrator, van_der_pol

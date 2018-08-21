@@ -1,23 +1,23 @@
 module LyapunovExponentsTests
 
-print_with_color(:blue, let
+printstyled(let
     message = " Warnings below (if any) are fine. "
-    margin = (displaysize(STDOUT)[2] - length(message)) ÷ 2
+    margin = (displaysize(stdout)[2] - length(message)) ÷ 2
     ("=" ^ margin) * message * ("=" ^ margin)
-end)
+end, color=:blue)
 println()
-flush(STDOUT)
+flush(stdout)
 import Plots
 import ForwardDiff
 import DifferentialEquations
 import OnlineStats
-flush(STDOUT)
-flush(STDERR)
-print_with_color(:blue, "=" ^ displaysize(STDOUT)[2])
+flush(stdout)
+flush(stderr)
+printstyled("=" ^ displaysize(stdout)[2], color=:blue)
 println()
 
 using LyapunovExponents
-using Base.Test
+using Test
 
 tic()
 include("test_testtools.jl")

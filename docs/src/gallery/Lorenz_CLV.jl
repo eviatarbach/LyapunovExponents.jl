@@ -11,7 +11,7 @@ prob = CLVProblem(LyapunovExponents.lorenz_63().prob,
                   t_clv = t_clv)
 solver = init(prob)
 
-x_history = [Vector{Float64}(3) for _ in 1:num_rec]
+x_history = [Vector{Float64}(undef, 3) for _ in 1:num_rec]
 G_history = [Matrix{Float64}(3, 3) for _ in 1:num_rec]
 C_history = [Matrix{Float64}(3, 3) for _ in 1:num_rec]
 
