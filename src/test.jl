@@ -1,5 +1,6 @@
 module TestTools
 
+using Printf
 using Base: rtoldefault
 using Test: @test, record, get_testset, Pass, Fail, Error, Broken
 using DiffEqBase: DEProblem, set_u!, step!

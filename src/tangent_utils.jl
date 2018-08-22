@@ -13,7 +13,7 @@ end
 augmented_vector(x0::AbstractVector, Q0::UniformScaling) =
     augmented_vector(x0, Q0 * eye(size(x0, 1)))
 
-doc"""
+@doc doc"""
     tangent_propagate(stage::Stageable
                       [, tangent_state];
                       phase_state,

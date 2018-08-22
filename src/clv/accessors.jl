@@ -1,4 +1,4 @@
-doc"""
+@doc doc"""
 Convenience methods for accessing CLV matrices.
 
 Methods `CLV.C`, `CLV.R` and `CLV.G` are the accessor to the matrices

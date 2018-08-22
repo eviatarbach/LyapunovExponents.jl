@@ -8,6 +8,9 @@ export init, solve, solve!, step!
 import DiffEqBase: init, step!
 using DiffEqBase: solve!, set_u!
 # solve and solve! are imported/extended in stages.jl
+using LinearAlgebra
+using Printf
+using Markdown
 
 include("documents.jl")
 include("stages.jl")

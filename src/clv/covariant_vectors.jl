@@ -12,6 +12,8 @@ using ..LyapunovExponents: LEProblem, LESolver, dimension, is_semi_unitary,
     default_Q0, get_tangent_prob, validate_tangent_prob, time_type, ceil_if
 import ..LyapunovExponents:
     phase_state, TangentRenormalizer, get_integrator
+using LinearAlgebra
+using Markdown
 
 include("utils.jl")
 include("clv_problem.jl")

@@ -19,7 +19,7 @@ println()
 using LyapunovExponents
 using Test
 
-tic()
+@time begin
 include("test_testtools.jl")
 include("test_utils.jl")
 include("test_online_stats.jl")
@@ -30,6 +30,6 @@ include("test_integrators.jl")
 include("test_terminators.jl")
 include("test_clv.jl")
 include("test_null_clv.jl")
-toc()
+end
 
 end

@@ -2,6 +2,7 @@ using OnlineStatsBase: OnlineStat, EqualWeight, value
 using OnlineStats: VectorOb, smooth!, smooth, unbias
 import OnlineStats
 import OnlineStatsBase
+import Statistics
 
 mutable struct VecMean{W} <: OnlineStat{VectorOb}
     μs::Vector{Float64}
@@ -12,7 +13,7 @@ VecMean(μs::Vector{Float64}; weight = EqualWeight()) = VecMean(μs, weight, 0)
 VecMean(len::Integer) = VecMean(zeros(Float64, len))
 OnlineStatsBase._fit!(o::VecMean, x::VectorOb) =
     smooth!(o.μs, x, o.weight(o.n += 1))
-Base.mean(o::VecMean) = value(o)
+Statistics.mean(o::VecMean) = value(o)
 
 
 mutable struct VecVariance{W} <: OnlineStat{VectorOb}
@@ -39,6 +40,6 @@ end
 
 OnlineStatsBase.value(o::VecVariance) =
     o.n < 2 ? fill(NaN, size(o.μs)) : o.σ2s .* unbias(o)
-Base.var(o::VecVariance) = value(o)
-Base.std(o::VecVariance) = sqrt.(var(o))
-Base.mean(o::VecVariance) = o.μs
+Statistics.var(o::VecVariance) = value(o)
+Statistics.std(o::VecVariance) = sqrt.(var(o))
+Statistics.mean(o::VecVariance) = o.μs
