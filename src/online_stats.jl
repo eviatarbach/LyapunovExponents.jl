@@ -1,5 +1,5 @@
 using OnlineStatsBase: OnlineStat, EqualWeight, value
-using OnlineStats: VectorOb, smooth!, smooth, unbias
+using OnlineStats: VectorOb, smooth!, smooth, bessel
 import OnlineStats
 import OnlineStatsBase
 import Statistics
@@ -39,7 +39,7 @@ function OnlineStatsBase._fit!(o::VecVariance, x::VectorOb)
 end
 
 OnlineStatsBase.value(o::VecVariance) =
-    o.n < 2 ? fill(NaN, size(o.μs)) : o.σ2s .* unbias(o)
+    o.n < 2 ? fill(NaN, size(o.μs)) : o.σ2s .* bessel(o)
 Statistics.var(o::VecVariance) = value(o)
 Statistics.std(o::VecVariance) = sqrt.(var(o))
 Statistics.mean(o::VecVariance) = o.μs
