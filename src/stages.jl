@@ -93,10 +93,13 @@ record!(::AbstractStage, ::Any) = nothing
 # Default iterator interface ("mix-in")
 current_result(stage::AbstractStage) = nothing
 
-Base.start(stage::AbstractStage) = nothing
-Base.done(stage::AbstractStage, _state) = is_finished(stage)
-@inline function Base.next(stage::AbstractStage, _state)
+@inline function Base.iterate(stage::AbstractStage, _state=nothing)
     step!(stage)
+
+    if is_finished(stage)
+        return nothing
+    end
+
     return (current_result(stage), nothing)
 end
 
@@ -113,20 +116,19 @@ struct StageState
 end
 
 
-Base.start(iter::StageIterator) = StageState(1, iter.source)
-
-function Base.next(iter::StageIterator, state::StageState)
+function Base.iterate(iter::StageIterator, state::StageState=StageState(1, iter.source))
     next_state = StageState(
         state.i + 1,
         iter.stage_types[state.i](
             finish_if_not!(state.stage),
             iter.args...))
+
+    if length(iter.stage_types) < state.i
+        return nothing
+    end
+
     return (next_state.stage, next_state)
 end
-
-Base.done(iter::StageIterator, state::StageState) =
-    length(iter.stage_types) < state.i
-
 
 is_reachable(iter::StageIterator, stage_type::Type, i::Int = 1) =
     any(t <: stage_type for t in iter.stage_types[i:end])
