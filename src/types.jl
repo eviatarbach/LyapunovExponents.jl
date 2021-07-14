@@ -68,10 +68,12 @@ struct LEProblem{PPr, TPr, TT} <: AbstractSource
     end
 end
 
-make_tangent_prob(phase_prob, tangent_dynamics, u0) =
-    remake(phase_prob,
-           f = tangent_dynamics,
-           u0 = u0)
+function make_tangent_prob(phase_prob, tangent_dynamics, u0)
+    tangent_function = Base.typename(typeof(phase_prob.f)).wrapper{isinplace(phase_prob)}(tangent_dynamics)
+    return remake(phase_prob,
+                  f = tangent_function,
+                  u0 = u0)
+end
 
 function validate_tangent_prob(phase_prob::DEProblem,
                                tangent_prob,

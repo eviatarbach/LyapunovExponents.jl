@@ -15,8 +15,8 @@ objname(f) = rsplit(string(f), "."; limit=2)[end]
 
 function is_semi_unitary(U, error=1e-7)
     n, m = size(U)
-    I = n > m ? U' * U : U * U'
-    diff = abs.(I .- eye(I))
+    I2 = n > m ? U' * U : U * U'
+    diff = abs.(I2 - I)
     sum(diff) / length(diff) <= error
 end
 
@@ -27,7 +27,7 @@ function default_Q0(T::DataType, dim_phase, dim_lyap)
     for i in 1:dim_lyap
         Q0[1:dim_phase - i + 1, i] .= 1
     end
-    return qr(Q0)[1]
+    return qr(Q0).Q
 end
 
 default_Q0(array::AbstractArray, dim_phase, dim_lyap) =

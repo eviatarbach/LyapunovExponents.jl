@@ -1,6 +1,6 @@
 function allocate_array_of_arrays(num, inner_size, inner_type,
                                   constructor = inner_type)
-    arrays = Array{inner_type, 1}(num)
+    arrays = Array{inner_type, 1}(undef, num)
     for i in 1:num
         arrays[i] = constructor(inner_size)
     end
@@ -8,5 +8,5 @@ function allocate_array_of_arrays(num, inner_size, inner_type,
 end
 
 const UTM = UpperTriangular{Float64, Matrix{Float64}}
-make_UTM(args...) = UpperTriangular(Matrix{Float64}(args...))
+make_UTM(args...) = UpperTriangular(Matrix{Float64}(undef, args...))
 # TODO: UpperTriangular wastes almost half of memory; fix it
