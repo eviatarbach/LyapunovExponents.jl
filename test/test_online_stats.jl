@@ -1,4 +1,6 @@
 using Test
+using Random
+using Statistics
 using OnlineStats: Series, fit!
 using LyapunovExponents: VecMean, VecVariance
 
@@ -12,7 +14,7 @@ using LyapunovExponents: VecMean, VecVariance
         xs = randn(rng, dim, len)
         for i in 1:len
             fit!(os, xs[:, i])
-            @test mean(stat) ≈ mean(xs[:, 1:i], 2)[:, 1]
+            @test mean(stat) ≈ mean(xs[:, 1:i], dims=2)[:, 1]
         end
     end
     @testset "VecVariance dim=$dim" for dim in 1:max_dim
@@ -21,8 +23,8 @@ using LyapunovExponents: VecMean, VecVariance
         xs = randn(rng, dim, len)
         for i in 1:len
             fit!(os, xs[:, i])
-            @test mean(stat) ≈ mean(xs[:, 1:i], 2)[:, 1]
-            @test var(stat) ≈ var(xs[:, 1:i], 2)[:, 1] nans=true
+            @test mean(stat) ≈ mean(xs[:, 1:i], dims=2)[:, 1]
+            @test var(stat) ≈ var(xs[:, 1:i], dims=2)[:, 1] nans=true
         end
     end
 end

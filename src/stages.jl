@@ -154,7 +154,7 @@ mutable struct StagedSolver{P, S}
             stage_types,
             args,  # additional arguments to each `stage_types`
         )
-        state = start(iter)
+        state = iterate(iter)
         return new{P, S}(prob, iter, state, sol)
     end
 end
