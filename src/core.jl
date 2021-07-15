@@ -89,43 +89,6 @@ end
     return (n - 1) / n * lyap + log(r) / n
 end
 
-@inline function eye!(A)
-    A .= 0
-    for i in 1:min(size(A)...)
-        @inbounds A[i, i] = 1
-    end
-    A
-end
-
-""" A = A * diag(sgn) """
-@inline function A_mul_sign!(A, sgn)
-    for i = 1:size(A)[2]
-        if !sgn[i]
-            A[:, i] *= -1
-        end
-    end
-    A
-end
-
-""" A = diag(sgn) * A """
-@inline function sign_mul_A!(sgn, A)
-    for i = 1:size(A)[1]
-        if !sgn[i]
-            A[i, :] *= -1
-        end
-    end
-    A
-end
-
-
-""" sgn = sign(diag(A))  """
-@inline function sign_diag!(sgn, A)
-    for i = 1:size(A)[1]
-        sgn[i] = A[i, i] >= 0
-    end
-    sgn
-end
-
 """
     step!(stage::AbstractRenormalizer)
 
@@ -145,15 +108,14 @@ is_finished(stage::AbstractRenormalizer) =
 function post_evolve!(stage::TangentRenormalizer)
     dim_lyap = length(stage.inst_exponents)
     P = stage.tangent_state
-    F = qrfact!(P)
-    Q = stage.Q
-    A_mul_B!(F[:Q], eye!(Q))  # Q = Matrix(F[:Q])[...]; but lesser allocation
-    R = stage.R = F[:R]
+    F = qr!(P)
+    Q = Array(stage.Q)
+    R = stage.R = F.R
 
     sign_R = stage.sign_R
-    sign_diag!(sign_R, R)        # sign_R = diagm(sign(diag(R)))
-    A_mul_sign!(Q, sign_R)       # Q = Q * sign_R
-    sign_mul_A!(sign_R, R)       # R = signR * R
+    sign_R = diagm(sign.(diag(R)))
+    Q = Q*sign_R
+    R = sign_R*R
 
     stage.i += 1
     stage.tangent_state, stage.Q = Q, stage.tangent_state

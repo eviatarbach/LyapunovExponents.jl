@@ -10,8 +10,7 @@ function augmented_vector(x0::AbstractVector, Q0::AbstractArray)
     return u0
 end
 
-augmented_vector(x0::AbstractVector, Q0::UniformScaling) =
-    augmented_vector(x0, Q0 * eye(size(x0, 1)))
+augmented_vector(x0::AbstractVector, Q0::UniformScaling) = augmented_vector(x0, Q0 * diagm(ones(size(x0, 1))))
 
 @doc doc"""
     tangent_propagate(stage::Stageable

@@ -154,17 +154,17 @@ mutable struct StagedSolver{P, S}
             stage_types,
             args,  # additional arguments to each `stage_types`
         )
-        state = iterate(iter)
+	state = iterate(iter)[2]
         return new{P, S}(prob, iter, state, sol)
     end
 end
 
 function advance!(solver::StagedSolver, policy::ExecPolicy = NullPolicy())
-    if done(solver.iter, solver.state)
+    if iterate(solver.iter, solver.state) === nothing
         return nothing
     end
     finish_if_not!(solver.state.stage, policy)
-    _, solver.state = next(solver.iter, solver.state)
+    _, solver.state = iterate(solver.iter, solver.state)
     return solver.state.stage
 end
 
@@ -174,7 +174,7 @@ function goto_last!(solver::StagedSolver, policy::ExecPolicy = NullPolicy())
 end
 
 function solve!(solver::StagedSolver; progress=-1)
-    if done(solver.iter, solver.state) && is_finished(solver.state.stage)
+    if (iterate(solver.iter, solver.state) === nothing) && is_finished(solver.state.stage)
         error("No further computation is required.")
         # Should it be just a no-op?
     end

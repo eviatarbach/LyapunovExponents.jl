@@ -32,9 +32,9 @@ using LyapunovExponents.CovariantVectors: goto!
                       backward_dynamics = CLV.BackwardDynamicsWithD)
 
         forward = forward_dynamics!(solver)
-        R_prev = [Matrix{Float64}(dl, dl) for _ in 1:length(forward)]
-        G = [Matrix{Float64}(dp, dl) for _ in 1:length(forward)]
-        M = [Matrix{Float64}(dp, dp) for _ in 1:length(forward)]
+        R_prev = [Matrix{Float64}(undef, dl, dl) for _ in 1:length(forward)]
+        G = [Matrix{Float64}(undef, dp, dl) for _ in 1:length(forward)]
+        M = [Matrix{Float64}(undef, dp, dp) for _ in 1:length(forward)]
 
         # Recall: 𝑮ₙ₊ₖ 𝑪ₙ₊ₖ 𝑫ₖ,ₙ = 𝑴ₖ,ₙ 𝑮ₙ 𝑪ₙ = 𝑮ₙ₊ₖ 𝑹ₖ,ₙ 𝑪ₙ
         # (Eq. 32, Ginelli et al., 2013)
@@ -60,8 +60,8 @@ using LyapunovExponents.CovariantVectors: goto!
         backward = backward_dynamics!(solver)
         num_clv = length(backward)
         @assert backward.R_history == R_prev[1:num_clv]
-        C = [Matrix{Float64}(dl, dl) for _ in 1:num_clv]
-        D = [Matrix{Float64}(dl, dl) for _ in 1:num_clv]
+        C = [Matrix{Float64}(undef, dl, dl) for _ in 1:num_clv]
+        D = [Matrix{Float64}(undef, dl, dl) for _ in 1:num_clv]
         C[end] .= CLV.C(backward)
         for (n, Cn) in indexed_backward_dynamics!(backward)
             @test CLV.R(backward) == R_prev[n+1]  # 𝑹ₖ,ₙ
