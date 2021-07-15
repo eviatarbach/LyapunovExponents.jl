@@ -27,7 +27,7 @@ function default_Q0(T::DataType, dim_phase, dim_lyap)
     for i in 1:dim_lyap
         Q0[1:dim_phase - i + 1, i] .= 1
     end
-    return qr(Q0).Q
+    return Array(qr(Q0).Q)
 end
 
 default_Q0(array::AbstractArray, dim_phase, dim_lyap) =

@@ -2,8 +2,6 @@ using Test
 using LyapunovExponents
 using LyapunovExponents: PhaseRelaxer,
     get_integrator, get_tangent_integrator, van_der_pol
-using LyapunovExponents.TestTools: @test_isapprox_elemwise
-
 
 @time @testset "Integrator time continuity" begin
     prob = van_der_pol().prob
@@ -20,7 +18,5 @@ using LyapunovExponents.TestTools: @test_isapprox_elemwise
     step!(integrator, dt, true)
     @test integrator.t == relaxer.integrator.t
 
-    @test_isapprox_elemwise(integrator.u[:, 1],
-                            relaxer.integrator.u,
-                            rtol = 0.05)
+    @test integrator.u[:, 1] ≈ relaxer.integrator.u rtol = 0.05
 end

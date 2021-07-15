@@ -227,7 +227,7 @@ mutable struct TangentRenormalizer{S <: LESolution,
         inst_exponents = zeros(eltype(phase_state), dim_lyap)
         Q = similar(tangent_state)
         R = similar(tangent_state, (0, 0))  # dummy
-        sign_R = Array{Bool}(dim_lyap)
+        sign_R = Array{Bool}(undef, dim_lyap)
 
         T = promote_type(map(typeof, (t_attr, t_renorm))...)
         return new{S, TMNR, Intr, T, V, M}(

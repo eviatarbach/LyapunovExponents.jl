@@ -1,5 +1,4 @@
 using DifferentialEquations
-using ForwardDiff
 using DiffEqBase: ODEProblem, SDEProblem, RODEProblem, DEIntegrator
 using OrdinaryDiffEq: ODEIntegrator
 using StochasticDiffEq: SDEIntegrator
@@ -14,11 +13,10 @@ function get_integrator(prob::CTProblem; save_everystep=false,
                         kwargs...)
     if alg === nothing
         alg, extra_kwargs = default_algorithm(prob; kwargs...)
-    else
-        extra_kwargs = []
     end
-    return init(prob, alg; kwargs..., extra_kwargs...,
-                save_everystep=save_everystep)
+    #TODO: fix bug that doesn't let both kwargs and extra_kwargs
+    @assert length(extra_kwargs) == 0
+    return init(prob, alg; save_everystep=save_everystep, kwargs...)
 end
 # See:
 # - [[../../OrdinaryDiffEq/src/solve.jl::function init\b]]
